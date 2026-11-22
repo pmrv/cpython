@@ -653,7 +653,11 @@ methods:
    Upon unpickling, if the class defines :meth:`__setstate__`, it is called with
    the unpickled state.  In that case, there is no requirement for the state
    object to be a dictionary.  Otherwise, the pickled state must be a dictionary
-   and its items are assigned to the new instance's dictionary.
+   and its items are assigned to the new instance's dictionary.  For a class
+   with :attr:`~object.__slots__`, the state may also be a tuple of two items,
+   as described for :meth:`__getstate__`; the first item, if not ``None``, is
+   handled as above and the items of the second are set as attributes of the
+   new instance.
 
    .. note::
 
@@ -717,7 +721,9 @@ or both.
    * Optionally, the object's state, which will be passed to the object's
      :meth:`__setstate__` method as previously described.  If the object has no
      such method then, the value must be a dictionary and it will be added to
-     the object's :attr:`~object.__dict__` attribute.
+     the object's :attr:`~object.__dict__` attribute.  For a class with
+     :attr:`~object.__slots__`, it may also be a tuple of two items, as
+     described for :meth:`__setstate__`.
 
    * Optionally, an iterator (and not a sequence) yielding successive items.
      These items will be appended to the object either using
